@@ -25,4 +25,8 @@ public class Habit {
     @Column(name = "PROGRESS")
     private Progress progress;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "goal_id")
+    private Goal goal;
+
 }

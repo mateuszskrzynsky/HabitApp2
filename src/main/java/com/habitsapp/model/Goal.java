@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -25,5 +27,8 @@ public class Goal {
 
     @Column(name = "END_DATE")
     private LocalDate endDate;
+
+    @OneToMany(mappedBy = "goal", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Habit> habits = new HashSet<>();
 
 }
