@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: 01_create_table_goal
+      author: postgres
+      changes:
+        - sqlFile:
+            path: scripts/01_create_table_goal.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
+  - changeSet:
+      id: 02_create_table_habit
+      author: postgres
+      changes:
+        - sqlFile:
+            path: scripts/02_create_table_habit.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true

@@ -19,4 +19,10 @@ public class Habit {
     @Column(name = "FREQUENCY")
     private Frequency frequency;
 
+    @Column(name = "TRACK")
+    private boolean track;
+
+    @Column(name = "PROGRESS")
+    private Progress progress;
+
 }

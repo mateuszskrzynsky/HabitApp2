@@ -24,6 +24,6 @@ public class Goal {
     private LocalDate startDate;
 
     @Column(name = "END_DATE")
-    private LocalDate localDate;
+    private LocalDate endDate;
 
 }
