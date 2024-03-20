@@ -74,14 +74,8 @@ public class GoalController {
      */
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateGoal(@PathVariable Long id, @RequestBody Goal goal) {
-        return goalService.findGoalById(id).map(updateGoal -> {
-            updateGoal.setName(goal.getName());
-            updateGoal.setCategory(goal.getCategory());
-            updateGoal.setStartDate(goal.getStartDate());
-            updateGoal.setEndDate(goal.getEndDate());
-            Goal updatedGoal = goalService.createGoal(updateGoal);
-            return ResponseEntity.ok(updatedGoal);
-        }).orElse(ResponseEntity.notFound().build());
+        Goal updatedGoal = goalService.updateGoal(id, goal);
+        return ResponseEntity.ok(updatedGoal);
     }
 
 

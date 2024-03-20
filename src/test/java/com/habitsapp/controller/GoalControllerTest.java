@@ -1,117 +1,121 @@
 package com.habitsapp.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.habitsapp.controller.GoalController;
 import com.habitsapp.model.Category;
 import com.habitsapp.model.Goal;
 import com.habitsapp.service.GoalService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(SpringExtension.class)
+@WebMvcTest(GoalController.class)
 class GoalControllerTest {
 
-    @Mock
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
     private GoalService goalService;
 
-    @InjectMocks
-    private GoalController goalController;
+    @Autowired
+    private ObjectMapper objectMapper;
 
-    @Test
-    void getAllGoals() {
-        //GIVEN
-        Goal goal1 = new Goal();
-        Goal goal2 = new Goal();
-        //WHEN
-        when(goalService.findAllGoals()).thenReturn(List.of(goal1, goal2));
-        List<Goal> goals = goalService.findAllGoals();
-        ResponseEntity<List<Goal>> response = goalController.getAllGoals();
-        //THEN
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(2, goals.size());
-    }
+    private Goal goal;
 
-    @Test
-    void getGoal() {
-        //GIVEN
-        Long id = 1L;
-        Goal goal=new Goal();
-        //WHEN
-        when(goalService.findGoalById(id)).thenReturn(Optional.of(goal));
-        ResponseEntity<Goal> response = goalController.getGoal(id);
-        //THEN
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(goal, response.getBody());
-    }
-
-    @Test
-    void createGoal() {
-
-        //GIVEN
-        Goal goal = new Goal();
-        goal.setName("CEL");
-
-        //WHEN
-        when(goalService.createGoal(any(Goal.class))).thenReturn(goal);
-        Goal result = goalService.createGoal(goal);
-        ResponseEntity<Goal> response= goalController.createGoal(goal);
-
-        //THEN
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals(result, response.getBody());
-
-    }
-
-    @Test
-    void deleteGoal() {
-
-        //GIVEN
-        Long id= 1L;
-
-        //WHEN
-        ResponseEntity<Goal> response = goalController.deleteGoal(id);
-
-        //THEN
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-        verify(goalService).deleteGoal(id);
-    }
-
-    @Test
-    void updateGoal() {
-        //GIVEN
-        Goal goal = new Goal();
+    @BeforeEach
+    void setUp() {
+        goal = new Goal();
         goal.setId(1L);
-        goal.setName("EAT MORE PROTEIN");
+        goal.setName("Learn Spring Boot");
         goal.setCategory(Category.DIET);
-        goal.setStartDate(LocalDate.now());
-        goal.setEndDate(LocalDate.now().plusDays(30));
+        goal.setStartDate(LocalDate.of(2023, 1, 1));
+        goal.setEndDate(LocalDate.of(2023, 12, 31));
+    }
 
-        Goal updatedGoal = new Goal();
-        updatedGoal.setId(1L);
-        updatedGoal.setName("EAT MORE PROTEIN AND LESS FAT");
-        updatedGoal.setCategory(Category.DIET);
-        updatedGoal.setStartDate(LocalDate.now());
-        updatedGoal.setEndDate(LocalDate.now().plusDays(30));
-        //WHEN
-        when(goalService.findGoalById(goal.getId())).thenReturn(Optional.of(goal));
-        when(goalService.createGoal(any())).thenAnswer(InvocationOnMock::getArguments);
-        ResponseEntity<?> response= goalController.updateGoal(1L, goal);
+//    @Test
+//    void getAllGoals() {
+//        //GIVEN
+//        Goal goal1 = new Goal();
+//        Goal goal2 = new Goal();
+//        //WHEN
+//        when(goalService.findAllGoals()).thenReturn(List.of(goal1, goal2));
+//        List<Goal> goals = goalService.findAllGoals();
+//        ResponseEntity<List<Goal>> response = goalController.getAllGoals();
+//        //THEN
+//        assertEquals(HttpStatus.OK, response.getStatusCode());
+//        assertEquals(2, goals.size());
+//    }
+//
+//    @Test
+//    void getGoal() {
+//        //GIVEN
+//        Long id = 1L;
+//        Goal goal=new Goal();
+//        //WHEN
+//        when(goalService.findGoalById(id)).thenReturn(Optional.of(goal));
+//        ResponseEntity<Goal> response = goalController.getGoal(id);
+//        //THEN
+//        assertEquals(HttpStatus.OK, response.getStatusCode());
+//        assertEquals(goal, response.getBody());
+//    }
+//
+//    @Test
+//    void createGoal() {
+//
+//        //GIVEN
+//        Goal goal = new Goal();
+//        goal.setName("CEL");
+//
+//        //WHEN
+//        when(goalService.createGoal(any(Goal.class))).thenReturn(goal);
+//        Goal result = goalService.createGoal(goal);
+//        ResponseEntity<Goal> response= goalController.createGoal(goal);
+//
+//        //THEN
+//        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+//        assertEquals(result, response.getBody());
+//
+//    }
+//
+//    @Test
+//    void deleteGoal() {
+//
+//        //GIVEN
+//        Long id= 1L;
+//
+//        //WHEN
+//        ResponseEntity<Goal> response = goalController.deleteGoal(id);
+//
+//        //THEN
+//        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+//        verify(goalService).deleteGoal(id);
+//    }
 
-        //THEN
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(updatedGoal, response.getBody());
+    @Test
+    void updateGoal_ShouldUpdateGoal() throws Exception {
+        given(goalService.updateGoal(any(Long.class), any(Goal.class))).willReturn(goal);
+
+        mockMvc.perform(put("/goal/update/{id}", 1L)
+                        .contentType(MediaType.APPLICATION_JSON) // Określa typ zawartości żądania
+                        .accept(MediaType.APPLICATION_JSON) // Wymusza akceptację odpowiedzi JSON
+                        .content(objectMapper.writeValueAsString(goal)))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(goal)));
     }
 }

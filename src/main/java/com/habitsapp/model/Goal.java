@@ -1,5 +1,6 @@
 package com.habitsapp.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -29,6 +30,7 @@ public class Goal {
     private LocalDate endDate;
 
     @OneToMany(mappedBy = "goal", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private Set<Habit> habits = new HashSet<>();
 
 }

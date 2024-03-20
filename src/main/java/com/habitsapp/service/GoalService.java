@@ -69,20 +69,20 @@ public class GoalService {
     /**
      * Updates an existing Goal with new data
      * @param id The unique identifier of the goal to update
-     * @param updateGoal The new goal details in JSON format
+     * @param goalDetails The new goal details in JSON format
      * @return The update Goal object
      * @throws RuntimeException if goal not found
      */
-    public Goal updateGoal(Long id, Goal updateGoal){
-        return goalRepository.findById(id)
-                .map(goal->{
-                    goal.setName(updateGoal.getName());
-                    goal.setCategory(updateGoal.getCategory());
-                    goal.setStartDate(updateGoal.getStartDate());
-                    goal.setEndDate(updateGoal.getEndDate());
-                    return goalRepository.save(goal);
-                })
-                .orElseThrow(() -> new RuntimeException("Goal do not exists"));
+    public Goal updateGoal(Long id, Goal goalDetails) {
+        Goal goal = goalRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("Goal not found for this id :: " + id));
+
+        goal.setName(goalDetails.getName());
+        goal.setCategory(goalDetails.getCategory());
+        goal.setStartDate(goalDetails.getStartDate());
+        goal.setEndDate(goalDetails.getEndDate());
+
+        return goalRepository.save(goal);
     }
 
 }
