@@ -30,7 +30,6 @@ public class Habit {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "goal_id")
     @JsonBackReference
-    @JsonIgnore
     private Goal goal;
 
 }

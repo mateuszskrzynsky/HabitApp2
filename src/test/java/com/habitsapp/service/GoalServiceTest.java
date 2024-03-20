@@ -50,70 +50,6 @@ class GoalServiceTest {
         Mockito.when(goalRepository.save(any(Goal.class))).thenAnswer(invocation -> invocation.getArgument(0));
     }
 
-//    @Test
-//    void findAllGoals() {
-//
-//        //GIVEN
-//        Goal goal1 = new Goal();
-//        Goal goal2 = new Goal();
-//
-//        //WHEN
-//        when(goalRepository.findAll()).thenReturn(Arrays.asList(goal1, goal2));
-//        List<Goal> goals = goalService.findAllGoals();
-//
-//        //THEN
-//        assertNotNull(goals);
-//        assertEquals(2, goals.size());
-//    }
-//
-//    @Test
-//    void findGoalById() {
-//
-//        //GIVEN
-//        Goal goal = new Goal();
-//        goal.setId(1L);
-//
-//        //WHEN
-//        when(goalRepository.findById(1L)).thenReturn(Optional.of(goal));
-//        Optional<Goal> foundGoal = goalService.findGoalById(1L);
-//
-//        //THEN
-//        assertTrue(foundGoal.isPresent());
-//        assertEquals(1L, foundGoal.get().getId());
-//    }
-//
-//    @Test
-//    void createGoal() {
-//
-//        //GIVEN
-//        Goal goal = new Goal();
-//        goal.setName("CEL");
-//
-//        //WHEN
-//        when(goalRepository.save(any(Goal.class))).thenReturn(goal);
-//        Goal result = goalService.createGoal(goal);
-//
-//        //THEN
-//        assertNotNull(result);
-//        assertEquals("CEL",result.getName());
-//    }
-//
-//    @Test
-//    void deleteGoal() {
-//
-//        //GIVEN
-//        Goal goal = new Goal();
-//        goal.setId(1L);
-//
-//        //WHEN
-//        when(goalRepository.findById(1L)).thenReturn(Optional.of(goal));
-//        doNothing().when(goalRepository).deleteById(1L);
-//        boolean isDeleted = goalService.deleteGoal(1L);
-//
-//        //THEN
-//        assertTrue(isDeleted);
-//        verify(goalRepository, times(1)).deleteById(1L);
-//    }
 
     @Test
     void updateGoal_ShouldCorrectlyUpdateGoal() {
@@ -127,4 +63,24 @@ class GoalServiceTest {
 
         Mockito.verify(goalRepository).save(any(Goal.class));
     }
+
+//    @Test
+//    void findAllGoals() {
+//
+//    }
+//
+//    @Test
+//    void findGoalById() {
+//
+//    }
+//
+//    @Test
+//    void createGoal() {
+//
+//    }
+//
+//    @Test
+//    void deleteGoal() {
+//
+//    }
 }

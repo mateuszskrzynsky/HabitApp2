@@ -33,4 +33,6 @@ public class Goal {
     @JsonManagedReference
     private Set<Habit> habits = new HashSet<>();
 
+    private String Email;
+
 }

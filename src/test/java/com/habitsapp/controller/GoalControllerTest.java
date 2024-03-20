@@ -48,64 +48,6 @@ class GoalControllerTest {
         goal.setEndDate(LocalDate.of(2023, 12, 31));
     }
 
-//    @Test
-//    void getAllGoals() {
-//        //GIVEN
-//        Goal goal1 = new Goal();
-//        Goal goal2 = new Goal();
-//        //WHEN
-//        when(goalService.findAllGoals()).thenReturn(List.of(goal1, goal2));
-//        List<Goal> goals = goalService.findAllGoals();
-//        ResponseEntity<List<Goal>> response = goalController.getAllGoals();
-//        //THEN
-//        assertEquals(HttpStatus.OK, response.getStatusCode());
-//        assertEquals(2, goals.size());
-//    }
-//
-//    @Test
-//    void getGoal() {
-//        //GIVEN
-//        Long id = 1L;
-//        Goal goal=new Goal();
-//        //WHEN
-//        when(goalService.findGoalById(id)).thenReturn(Optional.of(goal));
-//        ResponseEntity<Goal> response = goalController.getGoal(id);
-//        //THEN
-//        assertEquals(HttpStatus.OK, response.getStatusCode());
-//        assertEquals(goal, response.getBody());
-//    }
-//
-//    @Test
-//    void createGoal() {
-//
-//        //GIVEN
-//        Goal goal = new Goal();
-//        goal.setName("CEL");
-//
-//        //WHEN
-//        when(goalService.createGoal(any(Goal.class))).thenReturn(goal);
-//        Goal result = goalService.createGoal(goal);
-//        ResponseEntity<Goal> response= goalController.createGoal(goal);
-//
-//        //THEN
-//        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-//        assertEquals(result, response.getBody());
-//
-//    }
-//
-//    @Test
-//    void deleteGoal() {
-//
-//        //GIVEN
-//        Long id= 1L;
-//
-//        //WHEN
-//        ResponseEntity<Goal> response = goalController.deleteGoal(id);
-//
-//        //THEN
-//        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-//        verify(goalService).deleteGoal(id);
-//    }
 
     @Test
     void updateGoal_ShouldUpdateGoal() throws Exception {
@@ -118,4 +60,25 @@ class GoalControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(goal)));
     }
+
+
+//    @Test
+//    void getAllGoals() {
+//        ;
+//    }
+//
+//    @Test
+//    void getGoal() {
+//
+//    }
+//
+//    @Test
+//    void createGoal() {
+//
+//    }
+//
+//    @Test
+//    void deleteGoal() {
+//
+//    }
 }
