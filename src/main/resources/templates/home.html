@@ -2,73 +2,84 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Home - HabitsApp</title>
+    <title>Home - Your Amazing HabitsApp</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        .banner-background {
+        .banner {
             background-image: url('https://fotoomnia.com/thumbnails/720/f046a75bec4c171ddc497e254113e1e2.jpg');
             background-size: cover;
-            height: 400px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-        }
-
-        .goals-list {
-            margin-top: 20px;
-        }
-    </style>
-</head>
-<body>
-
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Home - HabitsApp</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        .banner-background {
-            background-image: url('https://fotoomnia.com/thumbnails/720/dc1ae7e7a4ad5d612b11eeb19e4b477e.jpg');
-            background-size: contain;
-            height: 400px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            height: 300px;
             color: white;
             text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-
-        .banner-text {
-            background: rgba(0, 0, 0, 0.5); /* Ciemne tło dla tekstu dla lepszej czytelności */
-            padding: 20px;
+        .feature {
+            border: 2px solid #007bff;
+            padding: 15px;
             border-radius: 15px;
-            font-size: 2em; /* Większy rozmiar tekstu */
-            font-weight: bold;
-            max-width: 80%;
+            position: relative;
+            margin-bottom: 30px;
         }
-
-        .goals-list {
-            margin-top: 20px;
+        .feature-img, .feature-background-img {
+            height: 200px;
+            background-position: center;
+            background-size: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        .feature-background-img {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            z-index: -1;
+            opacity: 0.3;
         }
     </style>
 </head>
 <body>
 
-<div class="banner-background">
-    <div class="banner-text">Transform Your Habits, Transform Your Life</div>
+<div class="banner">
+    <h1>Your Journey to Better Habits Starts Today!</h1>
 </div>
 
-<div class="container goals-list">
-    <h2>Your Goals</h2>
-    <!-- Lista celów... -->
-</div>
-
-<footer class="footer mt-auto py-3 bg-light">
-    <div class="container text-center">
-        <span class="text-muted">© 2024 HabitsApp. All rights reserved.</span>
+<div class="container my-4">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="feature">
+                <div class="feature-img" style="background-image: url('https://fotoomnia.com/thumbnails/720/6830977ed2e88b2c9b8712a264aa35fb.jpg');"></div>
+                <div class="feature-background-img" style="background-image: url('https://fotoomnia.com/thumbnails/720/88cc88377da0d704fed641ee9f39e089.jpg');"></div>
+                <h3>Feature One</h3>
+                <p>Discover the power of consistency with our app.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature">
+                <div class="feature-img" style="background-image: url('https://fotoomnia.com/thumbnails/720/8bc30c3bfdae517546c21b45833be02a.jpg');"></div>
+                <div class="feature-background-img" style="background-image: url('https://fotoomnia.com/thumbnails/720/d3bfad9defed4f3cebd086d9b1100779.jpg');"></div>
+                <h3>Feature Two</h3>
+                <p>Track your progress and stay motivated every step of the way.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature">
+                <div class="feature-img" style="background-image: url('https://fotoomnia.com/thumbnails/720/0c5b519adaaa3d4ed9c01e7cb5164256.jpg');"></div>
+                <div class="feature-background-img" style="background-image: url('https://fotoomnia.com/thumbnails/720/5d707d3b76532fa5f56561d6a6158f6e.jpg');"></div>
+                <h3>Feature Three</h3>
+                <p>Join a community of like-minded individuals. Be one of us!</p>
+            </div>
+        </div>
     </div>
+    <div class="text-center my-4">
+        <a href="#" class="btn btn-primary btn-lg">Get Started</a>
+    </div>
+</div>
+
+<footer class="text-center py-4">
+    © 2024 Amazing HabitsApp. Created by Mateusz Skrzynski. All rights reserved.
 </footer>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

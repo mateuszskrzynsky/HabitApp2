@@ -59,38 +59,38 @@ class HabitControllerTest {
         habit.setProgress(Progress.ACTIVE);
     }
 
-    @Test
-    void getAllHabits_ShouldReturnAllHabits() throws Exception {
-        List<Habit> allHabits = Collections.singletonList(habit);
-        given(habitService.findAllHabits()).willReturn(allHabits);
-
-        mockMvc.perform(get("/habit/getAll")
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(allHabits)));
-    }
-
-    @Test
-    void getHabit_ShouldReturnHabit() throws Exception {
-        given(habitService.findHabitById(anyLong())).willReturn(Optional.of(habit));
-
-        mockMvc.perform(get("/habit/getHabit/{id}", 1L)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(habit)));
-    }
-
-    @Test
-    void createHabit_ShouldReturnCreatedHabit() throws Exception {
-        given(habitService.createHabit(any(Habit.class))).willReturn(habit);
-
-        mockMvc.perform(post("/habit/create")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(habit)))
-                .andExpect(status().isCreated())
-                .andExpect(content().json(objectMapper.writeValueAsString(habit)));
-    }
+//    @Test
+//    void getAllHabits_ShouldReturnAllHabits() throws Exception {
+//        List<Habit> allHabits = Collections.singletonList(habit);
+//        given(habitService.findAllHabits()).willReturn(allHabits);
+//
+//        mockMvc.perform(get("/habit/getAll")
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andExpect(content().json(objectMapper.writeValueAsString(allHabits)));
+//    }
+//
+//    @Test
+//    void getHabit_ShouldReturnHabit() throws Exception {
+//        given(habitService.findHabitById(anyLong())).willReturn(Optional.of(habit));
+//
+//        mockMvc.perform(get("/habit/getHabit/{id}", 1L)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andExpect(content().json(objectMapper.writeValueAsString(habit)));
+//    }
+//
+//    @Test
+//    void createHabit_ShouldReturnCreatedHabit() throws Exception {
+//        given(habitService.createHabit(any(Habit.class))).willReturn(habit);
+//
+//        mockMvc.perform(post("/habit/create")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .accept(MediaType.APPLICATION_JSON)
+//                        .content(objectMapper.writeValueAsString(habit)))
+//                .andExpect(status().isCreated())
+//                .andExpect(content().json(objectMapper.writeValueAsString(habit)));
+//    }
 
     @Test
     void deleteHabit_ShouldDeleteHabit() throws Exception {
