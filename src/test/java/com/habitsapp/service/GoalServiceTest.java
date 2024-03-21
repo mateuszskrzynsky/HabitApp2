@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,59 +29,80 @@ class GoalServiceTest {
     @InjectMocks
     private GoalService goalService;
 
-    private Goal existingGoal;
-    private Goal updatedGoalDetails;
+    private Goal goal;
 
     @BeforeEach
     void setUp() {
-        existingGoal = new Goal();
-        existingGoal.setId(1L);
-        existingGoal.setName("Original Goal");
-        existingGoal.setCategory(Category.DIET);
-        existingGoal.setStartDate(LocalDate.of(2023, 1, 1));
-        existingGoal.setEndDate(LocalDate.of(2023, 12, 31));
-
-        updatedGoalDetails = new Goal();
-        updatedGoalDetails.setName("Updated Goal");
-        updatedGoalDetails.setCategory(Category.HEALTH);
-        updatedGoalDetails.setStartDate(LocalDate.of(2023, 2, 1));
-        updatedGoalDetails.setEndDate(LocalDate.of(2023, 11, 30));
-
-        Mockito.when(goalRepository.findById(existingGoal.getId())).thenReturn(Optional.of(existingGoal));
-        Mockito.when(goalRepository.save(any(Goal.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        goal = new Goal();
+        goal.setId(1L);
+        goal.setName("Learn Spring Boot");
+        goal.setCategory(Category.DIET);
+        goal.setStartDate(LocalDate.of(2023, 1, 1));
+        goal.setEndDate(LocalDate.of(2023, 12, 31));
     }
-
 
     @Test
-    void updateGoal_ShouldCorrectlyUpdateGoal() {
-        Goal updatedGoal = goalService.updateGoal(existingGoal.getId(), updatedGoalDetails);
+    void findAllGoals_ShouldReturnAllGoals() {
+        when(goalRepository.findAll()).thenReturn(Arrays.asList(goal));
 
-        assertNotNull(updatedGoal);
-        assertEquals(updatedGoalDetails.getName(), updatedGoal.getName());
-        assertEquals(updatedGoalDetails.getCategory(), updatedGoal.getCategory());
-        assertEquals(updatedGoalDetails.getStartDate(), updatedGoal.getStartDate());
-        assertEquals(updatedGoalDetails.getEndDate(), updatedGoal.getEndDate());
+        List<Goal> goals = goalService.findAllGoals();
 
-        Mockito.verify(goalRepository).save(any(Goal.class));
+        assertNotNull(goals);
+        assertFalse(goals.isEmpty());
+        assertEquals(1, goals.size());
+        assertEquals(goal.getId(), goals.get(0).getId());
     }
 
-//    @Test
-//    void findAllGoals() {
-//
-//    }
-//
-//    @Test
-//    void findGoalById() {
-//
-//    }
-//
-//    @Test
-//    void createGoal() {
-//
-//    }
-//
-//    @Test
-//    void deleteGoal() {
-//
-//    }
+    @Test
+    void findGoalById_WhenGoalExists_ShouldReturnGoal() {
+        when(goalRepository.findById(eq(1L))).thenReturn(Optional.of(goal));
+
+        Optional<Goal> foundGoal = goalService.findGoalById(1L);
+
+        assertTrue(foundGoal.isPresent());
+        assertEquals(goal.getId(), foundGoal.get().getId());
+    }
+
+    @Test
+    void createGoal_ShouldSaveAndReturnGoal() {
+        when(goalRepository.save(any(Goal.class))).thenReturn(goal);
+
+        Goal savedGoal = goalService.createGoal(goal);
+
+        assertNotNull(savedGoal);
+        assertEquals(goal.getName(), savedGoal.getName());
+    }
+
+    @Test
+    void deleteGoal_WhenGoalExists_ShouldDeleteGoal() {
+        when(goalRepository.findById(eq(1L))).thenReturn(Optional.of(goal));
+        doNothing().when(goalRepository).deleteById(eq(1L));
+
+        boolean isDeleted = goalService.deleteGoal(1L);
+
+        assertTrue(isDeleted);
+        verify(goalRepository, times(1)).deleteById(eq(1L));
+    }
+
+    @Test
+    void updateGoal_ShouldCorrectlyUpdateGoalDetails() {
+        Goal updatedDetails = new Goal();
+        updatedDetails.setName("Updated Name");
+        updatedDetails.setCategory(Category.HEALTH);
+        updatedDetails.setStartDate(LocalDate.of(2023, 2, 1));
+        updatedDetails.setEndDate(LocalDate.of(2023, 11, 30));
+
+        when(goalRepository.findById(eq(1L))).thenReturn(Optional.of(goal));
+        when(goalRepository.save(any(Goal.class))).then(invocation -> invocation.getArgument(0));
+
+        Goal updatedGoal = goalService.updateGoal(1L, updatedDetails);
+
+        assertNotNull(updatedGoal);
+        assertEquals(updatedDetails.getName(), updatedGoal.getName());
+        assertEquals(updatedDetails.getCategory(), updatedGoal.getCategory());
+        assertEquals(updatedDetails.getStartDate(), updatedGoal.getStartDate());
+        assertEquals(updatedDetails.getEndDate(), updatedGoal.getEndDate());
+
+        verify(goalRepository, times(1)).save(goal);
+    }
 }

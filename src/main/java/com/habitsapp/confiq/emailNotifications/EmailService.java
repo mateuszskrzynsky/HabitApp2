@@ -1,4 +1,4 @@
-package com.habitsapp.service;
+package com.habitsapp.confiq.emailNotifications;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,13 @@ public class EmailService {
 
     private JavaMailSender javaMailSender;
 
+    /**
+     * Sending email message to user
+     * @param to The user who recive message
+     * @param subject The subject of the message send to user
+     * @param text The body of the message send to user
+     */
+
     @Async
     public void sendMessage(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
@@ -25,12 +32,6 @@ public class EmailService {
         javaMailSender.send(message);
     }
 
-    @Bean
-    CommandLineRunner sendWelcomeEmail(EmailService emailService) {
-        return args -> {
-            emailService.sendMessage("mateusz.skrzynsky@gmail.com", "Welcome in HabitApp", "Hi, thanks for using my app!");
-        };
-    }
 
 
 }

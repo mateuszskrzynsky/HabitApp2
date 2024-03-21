@@ -16,10 +16,16 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -62,23 +68,46 @@ class GoalControllerTest {
     }
 
 
-//    @Test
-//    void getAllGoals() {
-//        ;
-//    }
-//
-//    @Test
-//    void getGoal() {
-//
-//    }
-//
-//    @Test
-//    void createGoal() {
-//
-//    }
-//
-//    @Test
-//    void deleteGoal() {
-//
-//    }
+    @Test
+    void getAllGoals_ShouldReturnAllGoals() throws Exception {
+        List<Goal> allGoals = Collections.singletonList(goal);
+        given(goalService.findAllGoals()).willReturn(allGoals);
+
+        mockMvc.perform(get("/goal/getAll")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(allGoals)));
+    }
+
+    @Test
+    void getGoal_ShouldReturnGoal() throws Exception {
+        given(goalService.findGoalById(anyLong())).willReturn(Optional.of(goal));
+
+        mockMvc.perform(get("/goal/getGoal/{id}", 1L)
+                     .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(goal)));
+    }
+
+    @Test
+    void createGoal_ShouldReturnCreatedGoal() throws Exception {
+        given(goalService.createGoal(any(Goal.class))).willReturn(goal);
+
+        mockMvc.perform(post("/goal/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(goal)))
+                .andExpect(status().isCreated())
+                .andExpect(content().json(objectMapper.writeValueAsString(goal)));
+}
+
+    @Test
+    void deleteGoal_ShouldDeleteGoal() throws Exception {
+        given(goalService.deleteGoal(anyLong())).willReturn(true);
+
+        mockMvc.perform(delete("/goal/delete/{id}", 1L))
+                .andExpect(status().isNoContent());
+
+        verify(goalService, times(1)).deleteGoal(1L);
+    }
 }

@@ -1,4 +1,4 @@
-package com.habitsapp.service;
+package com.habitsapp.confiq.emailNotifications;
 
 import com.habitsapp.model.Goal;
 import com.habitsapp.repository.GoalRepository;
@@ -16,6 +16,10 @@ public class GoalNotificationService {
 
     private EmailService emailService;
 
+    /**
+     * The notification the user will receive when the goal is nearing completion
+     * @param goal the purpose for which the notification relates
+     */
     private void sendNotification(Goal goal){
         String subject = "Your goal is coming!";
         String message = String.format("Hi! We wanted to remind you " +
@@ -25,6 +29,9 @@ public class GoalNotificationService {
         emailService.sendMessage(goal.getEmail(), subject, message);
     }
 
+    /**
+     *Determining when a given notification will be sent to the user
+     */
     public void checkGoals(){
         List<Goal> goals = goalRepository.findAll();
 
