@@ -17,3 +17,17 @@ databaseChangeLog:
             relativeToChangelogFile: true
             splitStatements: true
             stripComments: true
+  - changeSet:
+      id: 03_create_table_users
+      author: postgres
+      changes:
+        - sqlFile:
+            path: scripts/02_create_table_users.sql
+            relativeToChangelogFile: true
+            splitStatements: true
+            stripComments: true
+spring:
+  security:
+    user:
+      name: admin
+      password: admin
