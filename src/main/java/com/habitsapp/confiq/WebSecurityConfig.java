@@ -29,8 +29,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(autz->
                         autz
                                 .requestMatchers("/goal/**").hasRole("USER")
-//                                .requestMatchers("/goal/**").permitAll()
-//                                .requestMatchers("/habit/**").permitAll()
+                                .requestMatchers("/**").hasRole("USER")
                                 .requestMatchers("habit/**").hasRole("USER")
                                 .requestMatchers("user/registration").permitAll()
                                 .requestMatchers("user/login").permitAll())

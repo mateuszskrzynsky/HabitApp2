@@ -19,11 +19,6 @@ public class UserController {
     UserService userService;
     private final AuthenticationManager authenticationManager;
 
-    @GetMapping("/registration")
-    public String showRegistration(Model model){
-        model.addAttribute("user", new User());
-        return "registration";
-    }
 
     @PostMapping("/registration")
     public String registerUser(@ModelAttribute("user") User user) throws UserAlreadyExistException {
