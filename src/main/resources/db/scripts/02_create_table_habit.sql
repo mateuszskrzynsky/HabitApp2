@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS habit
 (
-    id,
-    name,
-    frequency,
-    track,
-    progress
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(128),
+    frequency VARCHAR(128),
+    track VARCHAR(128),
+    progress VARCHAR(128)
 );

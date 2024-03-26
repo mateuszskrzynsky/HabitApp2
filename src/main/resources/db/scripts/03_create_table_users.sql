@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS users
 (
-    id,
-    username,
-    password,
-    email
-);
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,,
+    username VARCHAR(128),
+    password VARCHAR(128),
+    email VARCHAR(128)
+    );

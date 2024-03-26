@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS goal
 (
-    id,
-    name,
-    category,
-    startDate,
-    endDate
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(128),
+    category VARCHAR(128),
+    startDate VARCHAR(128),
+    endDate VARCHAR(128)
 );

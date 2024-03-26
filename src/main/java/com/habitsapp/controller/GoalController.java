@@ -22,7 +22,7 @@ public class GoalController {
      * Retrive all added goals
      * @return The requested goals with HTTP status 200
      */
-    @RolesAllowed("USER")
+
     @GetMapping("/getAll")
     public ResponseEntity<List<Goal>> getAllGoals(){
         List<Goal> goals = goalService.findAllGoals();
@@ -34,7 +34,7 @@ public class GoalController {
      * @param id The ID of the goal to retrive
      * @return The requested goal if found, with HTTP status 200, if not found HTTP status 404
      */
-    @RolesAllowed("USER")
+
     @GetMapping("/getGoal/{id}")
     public ResponseEntity<Goal> getGoal(@PathVariable Long id){
         return goalService.findGoalById(id)
@@ -48,7 +48,7 @@ public class GoalController {
      * @param goal request data required to create the goal
      * @return The created goal with HTTP status 201
      */
-    @RolesAllowed("USER")
+
     @PostMapping("/create")
     public ResponseEntity<Goal> createGoal(@RequestBody Goal goal){
         Goal newGoal= goalService.createGoal(goal);
@@ -60,7 +60,7 @@ public class GoalController {
      * @param id The ID of the goal to delete
      * @return HTTP status 204 with no content it the deletion was successful
      */
-    @RolesAllowed("USER")
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Goal> deleteGoal(@PathVariable Long id){
         Boolean deleted =  goalService.deleteGoal(id);
@@ -78,7 +78,7 @@ public class GoalController {
      * @param goal The new goal details in JSON format
      * @return The update Goal object with HTTP status 200
      */
-    @RolesAllowed("USER")
+
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateGoal(@PathVariable Long id, @RequestBody Goal goal) {
         Goal updatedGoal = goalService.updateGoal(id, goal);

@@ -29,10 +29,10 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(autz->
                         autz
                                 .requestMatchers("/goal/**").hasRole("USER")
-                                .requestMatchers("/goal/**").permitAll()
-                                .requestMatchers("/habit/**").permitAll()
+//                                .requestMatchers("/goal/**").permitAll()
+//                                .requestMatchers("/habit/**").permitAll()
                                 .requestMatchers("habit/**").hasRole("USER")
-                                .requestMatchers("user/registration").hasRole("USER")
+                                .requestMatchers("user/registration").permitAll()
                                 .requestMatchers("user/login").permitAll())
                 .httpBasic(Customizer.withDefaults());
         return http.build();
