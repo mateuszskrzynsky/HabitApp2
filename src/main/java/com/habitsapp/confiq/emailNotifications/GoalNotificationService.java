@@ -2,7 +2,9 @@ package com.habitsapp.confiq.emailNotifications;
 
 import com.habitsapp.model.Goal;
 import com.habitsapp.repository.GoalRepository;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -20,7 +22,7 @@ public class GoalNotificationService {
      * The notification the user will receive when the goal is nearing completion
      * @param goal the purpose for which the notification relates
      */
-    private void sendNotification(Goal goal){
+    public void sendNotification(Goal goal){
         String subject = "Your goal is coming!";
         String message = String.format("Hi! We wanted to remind you " +
                 "of your goal: %s, which ends in %s.",

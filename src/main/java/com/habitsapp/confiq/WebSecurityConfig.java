@@ -16,7 +16,20 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-
+/**
+ * Configuration class for Spring Security, defining security filters and rules for the application.
+ * Enables web security and method-level security with annotations. It specifies the authorization
+ * requirements for different URL patterns and configures an in-memory user for authentication.
+ *
+ * Security Configuration:
+ * - Disables CSRF protection for simplicity.
+ * - Restricts access to paths under "/goal/**", "/**", and "/habit/**" to users with the "USER" role.
+ * - Allows public access to "/user/registration" and "/user/login".
+ * - Configures HTTP Basic authentication.
+ *
+ * Additionally, it defines a default UserService with a single in-memory user (USER)
+ * and a BCryptPasswordEncoder for password encoding. It also provides a custom AuthenticationManager bean
+ */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)

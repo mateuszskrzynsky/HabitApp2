@@ -20,6 +20,15 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * Registers a new user by saving their details to the database.
+     * Before saving, it checks if the user's email already exists in the database to prevent duplicates.
+     * If the email is unique, it encodes the user's password for secure storage and then saves the user.
+     *
+     * @param user The User object containing the new user's registration details.
+     * @return The User object after it has been saved to the database.
+     * @throws UserAlreadyExistException if a user with the given email already exists.
+     */
     public User registerUser(User user) throws UserAlreadyExistException {
         if (emailExist(user.getEmail())) {
             throw new UserAlreadyExistException("There is an account with that email address: " + user.getEmail());
@@ -30,6 +39,12 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    /**
+     * Checks if an email already exists in the database.
+     *
+     * @param email The email address to check against existing records.
+     * @return true if the email is found in the database, false otherwise.
+     */
     private boolean emailExist(String email) {
         return userRepository.findByEmail(email) != null;
     }

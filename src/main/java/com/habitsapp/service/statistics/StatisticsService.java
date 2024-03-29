@@ -18,6 +18,11 @@ public class StatisticsService {
         this.goalRepository = goalRepository;
     }
 
+    /**
+     * Retrieves statistics for goals grouped by category.
+     *
+     * @return A list of goalStatistics representing the count of goals in each category.
+     */
     public List<GoalStatistics> getGoalStatistics() {
         return goalRepository.countGoalsByCategory();
     }

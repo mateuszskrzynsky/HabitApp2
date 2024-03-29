@@ -18,7 +18,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.ResultMatcher;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.net.URI;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
@@ -29,8 +33,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.post;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -59,38 +65,28 @@ class HabitControllerTest {
         habit.setProgress(Progress.ACTIVE);
     }
 
-//    @Test
-//    void getAllHabits_ShouldReturnAllHabits() throws Exception {
-//        List<Habit> allHabits = Collections.singletonList(habit);
-//        given(habitService.findAllHabits()).willReturn(allHabits);
-//
-//        mockMvc.perform(get("/habit/getAll")
-//                        .accept(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(content().json(objectMapper.writeValueAsString(allHabits)));
-//    }
-//
-//    @Test
-//    void getHabit_ShouldReturnHabit() throws Exception {
-//        given(habitService.findHabitById(anyLong())).willReturn(Optional.of(habit));
-//
-//        mockMvc.perform(get("/habit/getHabit/{id}", 1L)
-//                        .accept(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(content().json(objectMapper.writeValueAsString(habit)));
-//    }
-//
-//    @Test
-//    void createHabit_ShouldReturnCreatedHabit() throws Exception {
-//        given(habitService.createHabit(any(Habit.class))).willReturn(habit);
-//
-//        mockMvc.perform(post("/habit/create")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .accept(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(habit)))
-//                .andExpect(status().isCreated())
-//                .andExpect(content().json(objectMapper.writeValueAsString(habit)));
-//    }
+    @Test
+    void getAllHabits_ShouldReturnAllHabits() throws Exception {
+        List<Habit> allHabits = Collections.singletonList(habit);
+        given(habitService.findAllHabits()).willReturn(allHabits);
+
+        mockMvc.perform(get("/getAll")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect((ResultMatcher) content().json(objectMapper.writeValueAsString(allHabits)));
+    }
+
+    @Test
+    void getHabit_ShouldReturnHabit() throws Exception {
+        given(habitService.findHabitById(anyLong())).willReturn(Optional.of(habit));
+
+        mockMvc.perform(get("/getHabit/{id}", 1L)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect((ResultMatcher) content().json(objectMapper.writeValueAsString(habit)));
+    }
+
+
 
     @Test
     void deleteHabit_ShouldDeleteHabit() throws Exception {

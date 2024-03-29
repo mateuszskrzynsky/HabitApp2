@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -28,6 +29,9 @@ import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(GoalController.class)
@@ -53,13 +57,13 @@ class GoalControllerTest {
         goal.setStartDate(LocalDate.of(2023, 1, 1));
         goal.setEndDate(LocalDate.of(2023, 12, 31));
     }
-
-
     @Test
+//
     void updateGoal_ShouldUpdateGoal() throws Exception {
         given(goalService.updateGoal(any(Long.class), any(Goal.class))).willReturn(goal);
 
-        mockMvc.perform(put("/goal/update/{id}", 1L)
+        mockMvc.perform(put("/update/{id}", 1L)
+                        .with(user("user").roles("USER"))
                         .contentType(MediaType.APPLICATION_JSON) // Określa typ zawartości żądania
                         .accept(MediaType.APPLICATION_JSON) // Wymusza akceptację odpowiedzi JSON
                         .content(objectMapper.writeValueAsString(goal)))
@@ -69,31 +73,34 @@ class GoalControllerTest {
 
 
     @Test
+    @WithMockUser(username="user", roles={"USER"})
     void getAllGoals_ShouldReturnAllGoals() throws Exception {
         List<Goal> allGoals = Collections.singletonList(goal);
         given(goalService.findAllGoals()).willReturn(allGoals);
 
-        mockMvc.perform(get("/goal/getAll")
+        mockMvc.perform(get("/getAll")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(allGoals)));
     }
 
     @Test
+    @WithMockUser(username="user", roles={"USER"})
     void getGoal_ShouldReturnGoal() throws Exception {
         given(goalService.findGoalById(anyLong())).willReturn(Optional.of(goal));
 
-        mockMvc.perform(get("/goal/getGoal/{id}", 1L)
+        mockMvc.perform(get("/getGoal/{id}", 1L)
                      .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(goal)));
     }
 
     @Test
+    @WithMockUser(username="user", roles={"USER"})
     void createGoal_ShouldReturnCreatedGoal() throws Exception {
         given(goalService.createGoal(any(Goal.class))).willReturn(goal);
 
-        mockMvc.perform(post("/goal/create")
+        mockMvc.perform(post("/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(goal)))
@@ -102,10 +109,11 @@ class GoalControllerTest {
 }
 
     @Test
+    @WithMockUser(username="user", roles={"USER"})
     void deleteGoal_ShouldDeleteGoal() throws Exception {
         given(goalService.deleteGoal(anyLong())).willReturn(true);
 
-        mockMvc.perform(delete("/goal/delete/{id}", 1L))
+        mockMvc.perform(delete("/delete/{id}", 1L))
                 .andExpect(status().isNoContent());
 
         verify(goalService, times(1)).deleteGoal(1L);

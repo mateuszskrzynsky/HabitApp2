@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
 
     /**
+     * Displays the homepage of the HabitsApp.
      *
-     * @param model
-     * @return
+     * @param model Holds model data for view rendering. Here, it carries a welcome message.
+     * @return The name of the view to render, in this case, "home".
      */
     @GetMapping("/")
     public String home(Model model){
