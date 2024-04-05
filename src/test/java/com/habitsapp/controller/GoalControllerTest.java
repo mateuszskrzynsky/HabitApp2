@@ -72,6 +72,7 @@ class GoalControllerTest {
     }
 
 
+
     @Test
     @WithMockUser(username="user", roles={"USER"})
     void getAllGoals_ShouldReturnAllGoals() throws Exception {
